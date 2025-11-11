@@ -1,0 +1,247 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+}
+
+/* 1. Main Layout Container */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.title {
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* 2. Control Bar for Prev/Next/Counter */
+.flipbook-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    padding: 10px 20px;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Button Styling */
+.control-btn {
+    background: #fff;
+    color: #764ba2;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.control-btn:hover {
+    background: #764ba2;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Disabled state */
+.control-btn:disabled {
+    background: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+
+
+/* 3. Flipbook Container */
+.flipbook-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    perspective: 1500px;
+    /* --- ENHANCEMENT FOR MOBILE HEIGHT --- */
+    max-height: 90vh; 
+    padding: 0 10px;
+    /* ------------------------------------- */
+}
+
+.flipbook {
+    width: 100%;
+    max-width: 1000px;
+    /* --- ENHANCEMENT: Removed fixed height, let JS calculate it --- */
+    /* height: 600px; */ 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+}
+
+
+
+/* Page styles */
+.flipbook .page {
+    background: linear-gradient(to bottom, #f9f9f9, #ffffff);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.page-content {
+    width: 90%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.page-content h3 {
+    color: #333;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.page-content p {
+    color: #666;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.page img {
+    width: 70%;
+    max-height: 70%;
+    object-fit: contain;
+    margin: 10px 0;
+    border-radius: 5px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.flipbook .page small {
+    font-size: 14px;
+    color: #888;
+    margin-top: 10px;
+    font-style: italic;
+}
+
+/* Animation for page turns */
+.flipbook .page-wrapper {
+    transition: transform 0.6s;
+}
+
+/* Loading state */
+.flipbook-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.flipbook-container.loading::before {
+    opacity: 1;
+    content: 'Loading...';
+    color: #764ba2;
+    font-weight: 600;
+}
+
+
+/* --- Mobile Responsiveness Media Queries --- */
+
+@media (max-width: 1024px) {
+    /* Height is now managed by JS, but this breakpoint is still useful for content/font size */
+    /* .flipbook { height: 500px; } */
+    
+    .cover-content h2 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    /* This is the primary mobile breakpoint */
+    /* .flipbook { height: 400px; } - REMOVED, JS is now controlling height */
+    
+    .title {
+        font-size: 1.5rem;
+    }
+    
+    .cover-content h2 {
+        font-size: 1.8rem;
+    }
+    
+    .flipbook-controls {
+        padding: 8px 15px;
+        
+        flex-direction: row;
+    }
+    
+    .control-btn {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    body {
+        padding: 10px;
+    }
+    
+    /* .flipbook { height: 300px; } - REMOVED */
+    
+    .title {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+    }
+    
+    .flipbook-controls {
+       width: 80%;
+        flex-direction: row;
+        gap: 10px;
+        border-radius: 20px;
+        padding: 15px;
+    }
+    
+    #page-counter {
+        order: -1;
+    }
+}
